@@ -3,7 +3,8 @@ spring:
     name: VoskTest
 leenleda:
   vosk:
-    model: "AiModel/vosk-model-cn-0.22"
-#    model: "AiModel/vosk-model-small-cn-0.22" 如使用小型模型改註解上航取消註解此行
+#    上方正常模型，下方小型模型
+#    model: "AiModel/vosk-model-cn-0.22"
+    model: "AiModel/vosk-model-small-cn-0.22"
 server:
   port: 8081
