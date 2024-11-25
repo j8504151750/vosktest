@@ -3,6 +3,7 @@ spring:
     name: VoskTest
 leenleda:
   vosk:
-    model: "D:/lucasworkspace/VoskTest/AiModel/vosk-model-cn-0.22"
+    model: "AiModel/vosk-model-cn-0.22"
+#    model: "AiModel/vosk-model-small-cn-0.22" 如使用小型模型改註解上航取消註解此行
 server:
   port: 8081
