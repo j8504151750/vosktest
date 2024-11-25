@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: VoskTest
+leenleda:
+  vosk:
+    model: "D:/lucasworkspace/VoskTest/AiModel/vosk-model-cn-0.22"
+server:
+  port: 8081
