@@ -4,7 +4,7 @@ spring:
 leenleda:
   vosk:
 #    上方正常模型，下方小型模型
-#    model: "AiModel/vosk-model-cn-0.22"
-    model: "AiModel/vosk-model-small-cn-0.22"
+    model: "AiModel/vosk-model-cn-0.22"
+#    model: "AiModel/vosk-model-small-cn-0.22"
 server:
   port: 8081
