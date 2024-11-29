@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Controller
 public class VoiceAiController {
@@ -29,16 +29,23 @@ public class VoiceAiController {
     @PostMapping("/getWord")
     @ResponseBody
     public ResponseEntity<String> getWord(MultipartFile file) {
-        String path = "D:\\vosk\\" + new Date().getTime() + ".wav";
-        File localFile = new File(path);
         try {
+            // 動態生成臨時文件
+            Path tempFile = Files.createTempFile("vosk_", ".wav");
+            File localFile = tempFile.toFile();
+
+            // 保存上傳的文件到臨時文件
             file.transferTo(localFile);
-            String text = voiceUtil.getWord(path);
+
+            // 處理語音文件
+            String text = voiceUtil.getWord(localFile.getAbsolutePath());
+
+            // 刪除臨時文件
             localFile.delete();
+
             return ResponseEntity.ok(text);
         } catch (IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
-            localFile.delete();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("上傳失敗");
         }
     }
