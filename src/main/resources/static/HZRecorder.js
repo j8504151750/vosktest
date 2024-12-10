@@ -6,22 +6,29 @@
 
     var HZRecorder = function (stream, config) {
         config = config || {};
-        config.sampleBits = 16;      //採樣數位 8, 16
-        config.sampleRate = 16000;   //採樣率(1/6 44100)
+        config.sampleRate = 44100; // 採樣數位 提升至 44.1KHz
+        config.sampleBits = 24;    // 採樣率 提升至 24 位
 
 
         var context = new AudioContext();
         var audioInput = context.createMediaStreamSource(stream);
-        var recorder = context.createScriptProcessor(4096, 1, 1);
+        // 添加增益節點以調整音量
+        var gainNode = context.createGain();
+        gainNode.gain.value = 1.0; // 調整增益（音量）
+
+        // 將音頻流通過增益節點再連接到錄音器
+        audioInput.connect(gainNode);
+        var recorder = context.createScriptProcessor(4096, 1, 1); // 單聲道錄音
+        gainNode.connect(recorder);
 
 
         var audioData = {
-            size: 0          //錄音文件長度
-            , buffer: []     //錄音緩存
-            , inputSampleRate: context.sampleRate    //輸入採樣率
-            , inputSampleBits: 16       //輸入採樣數位 8, 16
-            , outputSampleRate: config.sampleRate    //輸出採樣率
-            , outputSampleBits: config.sampleBits       //輸出採樣數位 8, 16
+            size: 0,                         //錄音文件長度
+            buffer: [],                      //錄音緩存
+            inputSampleRate: context.sampleRate, //輸入採樣率
+            inputSampleBits: 24,             //輸入採樣數位 24
+            outputSampleRate: config.sampleRate, //輸出採樣率
+            outputSampleBits: config.sampleBits  //輸出採樣數位 24
             , input: function (data) {
                 this.buffer.push(new Float32Array(data));
                 this.size += data.length;
